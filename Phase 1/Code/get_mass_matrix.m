@@ -1,6 +1,6 @@
 function [M] =  get_mass_matrix(vibration_model,FSAE_Race_Car)
     %get_mass_matrix - A function for producing the mass 
-    %   matrix for a given car.
+    %   matrix for a given car and vibration model type.
     %
     %   USAGE
     %[M] =  get_mass_matrix(vibration_model,FSAE_Race_Car)
@@ -25,9 +25,9 @@ function [M] =  get_mass_matrix(vibration_model,FSAE_Race_Car)
         error('Error: invalid vibration model. Acceptable formats are "quarter_car_1_DOF" and "quarter_car_2_DOF"')
     end
     
-    M = [(FSAE_Race_Car.pilot.weight + FSAE_Race_Car.power_plant.weight + FSAE_Race_Car.chassis.weight)*0.031081/4];
+    M = (FSAE_Race_Car.pilot.weight + FSAE_Race_Car.power_plant.weight + FSAE_Race_Car.chassis.weight)*0.031081/4;
     if strcmp(vibration_model,'quarter_car_2_DOF') == 1
-        M = [M,0;0, FSAE_Race_Car.wheel_front.weight*0.031081];
+        M = [M,0;0, (FSAE_Race_Car.wheel_front.weight+FSAE_Race_Car.wheel_rear.weight)/2*0.031081];
     end
     
     

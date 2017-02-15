@@ -1,3 +1,5 @@
+clc; clear all; close all;
+
 driver_harry();
 chassis_2014();
 power_plant_2014();

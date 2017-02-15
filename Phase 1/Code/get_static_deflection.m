@@ -1,5 +1,6 @@
 function [ z0 ] = get_static_deflection(vibration_model,FSAE_Race_Car)
-    %get_static_deflection - A function for 
+    %get_static_deflection - A function for calculating the static
+    %   deflection of the given car and vibration model
     %
     %   USAGE
     %[ z0 ] = get_static_deflection(vibration_model,FSAE_Race_Car)
@@ -11,7 +12,8 @@ function [ z0 ] = get_static_deflection(vibration_model,FSAE_Race_Car)
     %FSAE_Race_Car      a struct defining which car to do analysis on
     %
     %   OUTPUT
-    %z0                  
+    %z0                 the static deflection matrix for the given 
+    %                   vehicle and vibration model type
     
     if ischar(vibration_model) == 0 
         error(['Error: Input type.',...
@@ -27,9 +29,9 @@ function [ z0 ] = get_static_deflection(vibration_model,FSAE_Race_Car)
     
 
     if strcmp(vibration_model,'quarter_car_1_DOF') == 1
-        z0 = 'wrong';
+        z0 = get_stiffness_matrix('quarter_car_1_DOF',FSAE_Race_Car)\(get_mass_matrix('quarter_car_1_DOF',FSAE_Race_Car)*32.174);
     else
-        z0 = get_stiffness_matrix('quarter_car_2_DOF', car_2017)\(diag(get_mass_matrix('quarter_car_2_DOF', car_2017))*32.174);
+        z0 = get_stiffness_matrix('quarter_car_2_DOF',FSAE_Race_Car)\(diag(get_mass_matrix('quarter_car_2_DOF',FSAE_Race_Car))*32.174);
     end
 end
 

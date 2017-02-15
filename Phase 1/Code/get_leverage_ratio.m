@@ -30,13 +30,13 @@ function [LR] =  get_leverage_ratio(front_or_rear,FSAE_Race_Car)
         if strcmp(FSAE_Race_Car.suspension_front.location,'inboard') == 1
             LR = power(FSAE_Race_Car.suspension_front.travel/FSAE_Race_Car.wheel_front.travel,2);
         else
-            LR = cos(FSAE_Race_Car.suspension_front.angle);
+            LR = cosd(FSAE_Race_Car.suspension_front.angle);
         end
     else
         if strcmp(FSAE_Race_Car.suspension_rear.location,'inboard') == 1
             LR = power(FSAE_Race_Car.suspension_rear.travel/FSAE_Race_Car.wheel_rear.travel,2);
         else
-            LR = cos(FSAE_Race_Car.suspension_rear.angle);
+            LR = cosd(FSAE_Race_Car.suspension_rear.angle);
         end
     end
     
