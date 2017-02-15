@@ -1,2 +1,3 @@
-# MEEN_345
-MEEN 345 Project
+# MEEN 345 Project 
+Vibration Analysis of Formula SAE Race Cars
+
