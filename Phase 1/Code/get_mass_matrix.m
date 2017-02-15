@@ -1,6 +1,19 @@
 function [M] =  get_mass_matrix(vibration_model,FSAE_Race_Car)
-    %The function needs to return an informative help message when 
-        %called via help get_mass_matrix.
+    %get_mass_matrix - A function for producing the mass 
+    %   matrix for a given car.
+    %
+    %   USAGE
+    %[M] =  get_mass_matrix(vibration_model,FSAE_Race_Car)
+    %
+    %   INPUT
+    %vibration_model    a char defining which type of model is being
+    %                   used. Can be either "quarter_car_1_DOF" or
+    %                   "quarter_car_2_DOF".
+    %FSAE_Race_Car      a struct defining which car to do analysis on
+    %
+    %   OUTPUT
+    %M                  The mass matrix for the given vehicle and
+    %                   vibration model type
     
     if ischar(vibration_model) == 0 
         error(['Error: Input type.',...

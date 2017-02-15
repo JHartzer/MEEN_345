@@ -1,7 +1,20 @@
 function [ K ] = get_stiffness_matrix(vibration_model,FSAE_Race_Car)
-    %UNTITLED7 Summary of this function goes here
-    %   Detailed explanation goes here
-    %   leverage ratio × k
+    %get_stiffness_matrix - A function for producing the stiffness 
+    %   matrix for a given car. Takes into account the calculated 
+    %   leverage ratio and average across all car sections. 
+    %
+    %   USAGE
+    %[ K ] = get_stiffness_matrix(vibration_model,FSAE_Race_Car)
+    %
+    %   INPUT
+    %vibration_model    a char defining which type of model is being
+    %                   used. Can be either "quarter_car_1_DOF" or
+    %                   "quarter_car_2_DOF".
+    %FSAE_Race_Car      a struct defining which car to do analysis on
+    %
+    %   OUTPUT
+    %K                  The stiffness matrix for the given   and
+    %                   vibration model type
     
     if ischar(vibration_model) == 0 
         error(['Error: Input type.',...

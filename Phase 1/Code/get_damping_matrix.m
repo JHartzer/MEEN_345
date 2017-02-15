@@ -1,7 +1,20 @@
 function [ C ] = get_damping_matrix(vibration_model,FSAE_Race_Car)
-    %UNTITLED7 Summary of this function goes here
-    %   Detailed explanation goes here
-    %   leverage ratio × k
+    %get_damping_matrix - A function for producing the damping matrix
+    %   for a given car. Takes into account the calculated leverage
+    %   ratio and average across all car sections. 
+    %
+    %   USAGE
+    %[ C ] = get_damping_matrix(vibration_model,FSAE_Race_Car)
+    %
+    %   INPUT
+    %vibration_model    a char defining which type of model is being
+    %                   used. Can be either "quarter_car_1_DOF" or
+    %                   "quarter_car_2_DOF".
+    %FSAE_Race_Car      a struct defining which car to do analysis on
+    %
+    %   OUTPUT
+    %C                  The damping matrix for the given vehicle and
+    %                   vibration model type
     
     if ischar(vibration_model) == 0 
         error(['Error: Input type.',...

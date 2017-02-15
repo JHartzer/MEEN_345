@@ -1,6 +1,20 @@
 function [LR] =  get_leverage_ratio(front_or_rear,FSAE_Race_Car)
-    %The function needs to return an informative help message when 
-        %called via help get_mass_matrix.
+    %get_leverage_ratio - A function for finding the leverage ratio: 
+    %   a scale between the stiffness k and damping c coefficients 
+    %   to the actual shock absorber assembly effective values
+    %
+    %   USAGE
+    %[LR] = get_leverage_ratio(front_or_rear,FSAE_Race_Car)
+    %
+    %   INPUT
+    %front_or_rear      a char defining which half of the car to use.
+    %                   Either "front" or "rear"
+    %FSAE_Race_Car      a struct defining which car to do analysis on
+    %
+    %   OUTPUT
+    %LR                 The effective leverage ratio given the car and
+    %                   the location of interest
+    
     
     if ischar(front_or_rear) == 0 
         error(['Error: Input type.',...
