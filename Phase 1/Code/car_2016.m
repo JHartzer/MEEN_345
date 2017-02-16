@@ -1,5 +1,3 @@
-clc; clear all; close all;
-
 driver_tom();
 chassis_2016();
 power_plant_2016();
