@@ -1,6 +1,6 @@
 driver_tom();
 chassis_2016();
-power_plant_2016();
+motor_2016();
 suspension_front_2016();
 suspension_rear_2016();
 wheel_front_2016();

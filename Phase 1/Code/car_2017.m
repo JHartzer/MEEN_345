@@ -1,6 +1,6 @@
 driver_sally();
 chassis_2017();
-power_plant_2017();
+motor_2017();
 suspension_front_2017();
 suspension_rear_2017();
 wheel_front_2017();
