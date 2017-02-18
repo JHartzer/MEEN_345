@@ -1,6 +1,6 @@
 function [t_top] = t2top_speed(t_60,v_top)
     %t2top_speed - Function for estimating time to reach top speed
-    %   from 0-60 time and top speed 
+    %   as calculated from 0-60 time and top speed 
     %
     %   USAGE
     %[t_top] = t2top_speed(t_60,v_top)
