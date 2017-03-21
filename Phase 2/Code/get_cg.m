@@ -13,8 +13,10 @@ function [ cg ] = get_cg(FSAE_Race_Car)
     %cg                 The distance (in feet) from the front axle of
     %                   the vehicle to the center of mass.
     
+   
     if isstruct(FSAE_Race_Car) == 0
-        error('Error: FSAE_Race_Car must be of type struct');
+        error(['Error: Input type.',...
+            '\n\tFSAE_Race_Car must be a struct, not a %s'],class(FSAE_Race_Car));
     end
     
     torque = ...
