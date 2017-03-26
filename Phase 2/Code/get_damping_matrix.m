@@ -34,36 +34,36 @@ function [ C ] = get_damping_matrix(vibration_model,FSAE_Race_Car)
     rear_leverage = get_leverage_ratio('rear',FSAE_Race_Car);
     c_front_suspension = FSAE_Race_Car.suspension_front.c * 12;
     c_rear_suspension = FSAE_Race_Car.suspension_rear.c * 12;
-    c_wheel_front = FSAE_Race_Car.wheel_front.c * 12;
-    c_wheel_rear = FSAE_Race_Car.wheel_rear.c * 12;
+    cf = FSAE_Race_Car.wheel_front.c * 12;
+    cr = FSAE_Race_Car.wheel_rear.c * 12; 
     
-    c_front_SxL = c_front_suspension * front_leverage;
-    c_rear_SxL = c_rear_suspension * rear_leverage;
-    LF = get_cg(FSAE_Race_Car);
-    LR = (FSAE_Race_Car.chassis.wheelbase / 12) - LF;
+    c1 = c_front_suspension * front_leverage; 
+    c2 = c_rear_suspension * rear_leverage; 
+    lf = get_cg(FSAE_Race_Car);
+    lr = (FSAE_Race_Car.chassis.wheelbase / 12) - lf;
     
-    Cs = ((c_front_SxL) + (c_rear_SxL)) / 2;
+    Cs = ((c1) + (c2)) / 2;
     
     if strcmp(vibration_model,'quarter_car_1_DOF') == 1
         C = Cs;
         % Damping matrix for 1/4 car, 1 DOF
         
     elseif strcmp(vibration_model,'quarter_car_2_DOF') == 1
-        C = [Cs, -Cs; -Cs , Cs + (c_wheel_front + c_wheel_rear)/2];
+        C = [Cs, -Cs; -Cs , Cs + (cf + cr)/2];
         % Damping matrix for 1/4 car, 2 DOF
         
     elseif strcmp(vibration_model, 'half_car_2_DOF') == 1
-        C = [Cs*2, ((c_rear_SxL * LR) - (c_front_SxL * LF));...
-            ((c_rear_SxL * LR) - (c_front_SxL * LF)), ((c_front_SxL * (LF^2)) + (c_rear_SxL * (LR^2)))];
+        C = [c1 + c2, ((c2 * lr) - (c1 * lf));...
+            ((c2 * lr) - (c1 * lf)), ((c1 * (lf^2)) + (c2 * (lr^2)))];
         % Damping matrix for 1/2 car, 2 DOF
         
     elseif strcmp(vibration_model, 'half_car_4_DOF') == 1
-        C = [Cs*2, ((c_rear_SxL * LR) - (c_front_SxL * LF)), -(c_front_SxL), -(c_rear_SxL);...
-            ((c_rear_SxL * LR) - (c_front_SxL * LF)), ((c_front_SxL * (LF^2)) + (c_rear_SxL * (LR^2))), (c_front_SxL * LF), -(c_rear_SxL * LR);...
-            -(c_front_SxL), (c_front_SxL * LF), (c_front_SxL + c_wheel_front), 0;...
-            -(c_rear_SxL), -(c_rear_SxL * LR), 0, (c_rear_SxL + c_wheel_rear)];
+        C = [Cs*2, ((c2 * lr) - (c1 * lf)), -(c1), -(c2);...
+            ((c2 * lr) - (c1 * lf)), ((c1 * (lf^2)) + (c2 * (lr^2))), (c1 * lf), -(c2 * lr);...
+            -(c1), (c1 * lf), (c1 + cf), 0;...
+            -(c2), -(c2 * lr), 0, (c2 + cr)];
         % Damping matrix for 1/2 car, 4 DOF
         
     end
-end
 
+end

@@ -43,31 +43,31 @@ function [R_f, R_r, dRdt_f, dRdt_r] = agony(wheelbase, X_enter, X, V)
     
     
     % Front wheel
-    if X < X_enter + 3 || X - X_enter > 3 + 25 + 1 + 15 + 2
+    if X <= X_enter || X - X_enter >= 25 + 1 + 15 + 2
         R_f = 0;
         dRdt_f = 0;
-    elseif X - X_enter < 3 + 25
-        [R_f, dRdt_f] = bump(25, 1, 0, X - X_enter - 3, V);
-    elseif X - X_enter < 3 + 25 + 1
-        [R_f, dRdt_f] = bump(1, -3/12, 0.75, X - X_enter - (3 + 25), V);
-    elseif X - X_enter < 3 + 25 + 1 + 15
-        [R_f, dRdt_f] = bump(15, -1, 3, X - X_enter - (3 + 25 + 1), V);
-    elseif X - X_enter < 3 + 25 + 1 + 15 + 2
-        [R_f, dRdt_f] = bump(2, -3/12, 1.75, X - X_enter - (3 + 25 + 1 + 15), V);
+    elseif X - X_enter < 25
+        [R_f, dRdt_f] = bump(25, 1, 0, X - X_enter, V);
+    elseif X - X_enter < 25 + 1
+        [R_f, dRdt_f] = bump(1, -3/12, 0.75, X - X_enter - 25, V);
+    elseif X - X_enter < 25 + 1 + 15
+        [R_f, dRdt_f] = bump(15, -1, 3, X - X_enter - (25 + 1), V);
+    elseif X - X_enter < 25 + 1 + 15 + 2
+        [R_f, dRdt_f] = bump(2, -3/12, 1.75, X - X_enter - (25 + 1 + 15), V);
     end
     
     % Rear wheel
     X_rear = X - wheelbase;
-    if X_rear < X_enter + 3 || X_rear- X_enter > 3 + 25 + 1 + 15 + 2
+    if X_rear <= X_enter || X_rear - X_enter >= 25 + 1 + 15 + 2
         R_r = 0;
         dRdt_r = 0;
-    elseif X_rear- X_enter < 3 + 25
-        [R_r, dRdt_r] = bump(25, 1, 0, X_rear- X_enter - 3, V);
-    elseif X_rear- X_enter < 3 + 25 + 1
-        [R_r, dRdt_r] = bump(1, -3/12, 0.75, X_rear - X_enter - (3 + 25), V);
-    elseif X_rear - X_enter < 3 + 25 + 1 + 15
-        [R_r, dRdt_r] = bump(15, -1, 3, X_rear - X_enter - (3 + 25 + 1), V);
-    elseif X_rear - X_enter < 3 + 25 + 1 + 15 + 2
-        [R_r, dRdt_r] = bump(2, -3/12, 1.75, X_rear - X_enter - (3 + 25 + 1 + 15), V);
+    elseif X_rear - X_enter < 25
+        [R_r, dRdt_r] = bump(25, 1, 0, X_rear - X_enter, V);
+    elseif X_rear - X_enter < 25 + 1
+        [R_r, dRdt_r] = bump(1, -3/12, 0.75, X_rear - X_enter - 25, V);
+    elseif X_rear - X_enter < 25 + 1 + 15
+        [R_r, dRdt_r] = bump(15, -1, 3, X_rear - X_enter - (25 + 1), V);
+    elseif X_rear - X_enter < 25 + 1 + 15 + 2
+        [R_r, dRdt_r] = bump(2, -3/12, 1.75, X_rear - X_enter - (25 + 1 + 15), V);
     end
 end

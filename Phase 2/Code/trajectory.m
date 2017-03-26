@@ -79,7 +79,7 @@ function [t, X, V] = trajectory(t, X, h, t_in, t_out, V_in, V_out, FSAE_Race_Car
         error('Error: function specifies brake that exceed capability of vehicle')
     end
     
-    Vf = @(t) V_in + (V_out - V_in)/2 * (1 - cos(pi * (t - t_in)/(t_out - t_in)));
+    Vf = @(t) (V_in + (V_out - V_in)/2 * (1 - cos(pi * (t - t_in)/(t_out - t_in))))*5280/3600;
     
     X = X + (h/6) * (Vf(t) + 4*Vf(t + h/2) + Vf(t + h));
     t = t + h;

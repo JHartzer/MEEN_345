@@ -33,34 +33,35 @@ function [ K ] = get_stiffness_matrix(vibration_model,FSAE_Race_Car)
     rear_leverage = get_leverage_ratio('rear', FSAE_Race_Car);
     k_front_suspension = FSAE_Race_Car.suspension_front.k * 12;
     k_rear_suspension = FSAE_Race_Car.suspension_rear.k * 12;
-    k_wheel_front = FSAE_Race_Car.wheel_front.k * 12;
-    k_wheel_rear = FSAE_Race_Car.wheel_rear.k * 12;
+    kf = FSAE_Race_Car.wheel_front.k * 12;
+    kr = FSAE_Race_Car.wheel_rear.k * 12;
     
-    k_front_SxL = k_front_suspension * front_leverage;
-    k_rear_SxL = k_rear_suspension * rear_leverage;
-    LF = get_cg(FSAE_Race_Car);
-    LR = (FSAE_Race_Car.chassis.wheelbase / 12) - LF;
+    k1 = k_front_suspension * front_leverage;
+    k2 = k_rear_suspension * rear_leverage;
+    lf = get_cg(FSAE_Race_Car);
+    lr = (FSAE_Race_Car.chassis.wheelbase / 12) - lf;
     
-    Ks = ((k_front_SxL) + (k_rear_SxL)) / 2;
+    Ks = (k1 + k2) / 2;
+       
     
     if strcmp(vibration_model, 'quarter_car_1_DOF') == 1
         K = Ks;
         % Stiffness matrix for 1/4 car, 1 DOF
         
     elseif strcmp(vibration_model, 'quarter_car_2_DOF') == 1
-        K = [Ks, -Ks; -Ks, Ks + (k_wheel_front + k_wheel_rear)/2];
+        K = [Ks, -Ks; -Ks, Ks + (kf + kr)/2];
         % Stiffness matrix for 1/4 car, 2 DOF
         
     elseif strcmp(vibration_model, 'half_car_2_DOF') == 1
-        K = [Ks*2, ((k_rear_SxL * LR) - (k_front_SxL * LF));...
-            ((k_rear_SxL * LR) - (k_front_SxL * LF)), ((k_front_SxL * (LF^2)) + (k_rear_SxL * (LR^2)))];
+        K = [k1 + k2, ((k2 * lr) - (k1 * lf));...
+            ((k2 * lr) - (k1 * lf)), ((k1 * (lf^2)) + (k2 * (lr^2)))];
         % Stiffness matrix for 1/2 car, 2 DOF
         
     elseif strcmp(vibration_model, 'half_car_4_DOF') == 1
-        K = [Ks*2, ((k_rear_SxL * LR) - (k_front_SxL * LF)), -(k_front_SxL), -(k_rear_SxL);...
-            ((k_rear_SxL * LR) - (k_front_SxL * LF)), ((k_front_SxL * (LF^2)) + (k_rear_SxL * (LR^2))), (k_front_SxL * LF), -(k_rear_SxL * LR);...
-            -(k_front_SxL), (k_front_SxL * LF), (k_front_SxL + k_wheel_front), 0;...
-            -(k_rear_SxL), -(k_rear_SxL * LR), 0, (k_rear_SxL + k_wheel_rear)];
+        K = [Ks*2, ((k2 * lr) - (k1 * lf)), -(k1), -(k2);...
+            ((k2 * lr) - (k1 * lf)), ((k1 * (lf^2)) + (k2 * (lr^2))), (k1 * lf), -(k2 * lr);...
+            -(k1), (k1 * lf), (k1 + kf), 0;...
+            -(k2), -(k2 * lr), 0, (k2 + kr)];
         % Stiffness matrix for 1/2 car, 4 DOF
         
     end

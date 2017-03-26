@@ -13,7 +13,7 @@ function [ phi ] = phi_bump( X, length, top)
     %   OUTPUT 
     %phi        Angle supplied to haversine function
     
-    if 0 < X && X < (length-top)/2
+    if 0 <= X && X < (length-top)/2
         phi = 2*pi*X/(length-top);
     elseif X <= (length+top)/2
         phi = pi;

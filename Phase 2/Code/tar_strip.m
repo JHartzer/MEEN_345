@@ -46,7 +46,7 @@ function [R_f, R_r, R_dot_f, R_dot_r] = tar_strip(wheelbase, X_enter, X, V)
     top = 1.5/12;
     
     % Front wheel
-    if X < X_enter || X - X_enter > length
+    if X <= X_enter || X - X_enter > length
         R_f = 0;
         R_dot_f = 0;
     else
@@ -62,3 +62,4 @@ function [R_f, R_r, R_dot_f, R_dot_r] = tar_strip(wheelbase, X_enter, X, V)
         [R_r, R_dot_r] = bump(length, height, top, X_rear - X_enter, V);
     end
 end
+
