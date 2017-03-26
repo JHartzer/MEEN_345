@@ -35,19 +35,15 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
     lf = get_cg(ff_data.car);
     lr = (ff_data.car.chassis.wheelbase / 12) - lf;
     
-    k_front_suspension = ff_data.car.suspension_front.k * 12;
-    k_rear_suspension = ff_data.car.suspension_rear.k * 12;
     kf = ff_data.car.wheel_front.k * 12;
     kr = ff_data.car.wheel_rear.k * 12;
-    k1 = k_front_suspension * front_leverage;
-    k2 = k_rear_suspension * rear_leverage;
+    k1 = ff_data.car.suspension_front.k * 12 * front_leverage;
+    k2 = ff_data.car.suspension_rear.k * 12 * rear_leverage;
     
-    c_front_suspension = ff_data.car.suspension_front.c * 12;
-    c_rear_suspension = ff_data.car.suspension_rear.c * 12;
     cf = ff_data.car.wheel_front.c * 12;
     cr = ff_data.car.wheel_rear.c * 12;
-    c1 = c_front_suspension * front_leverage; 
-    c2 = c_rear_suspension * rear_leverage; 
+    c1 = ff_data.car.suspension_front.c * 12 * front_leverage; 
+    c2 = ff_data.car.suspension_rear.c * 12 * rear_leverage; 
     
     
     

@@ -30,26 +30,24 @@ function [ C ] = get_damping_matrix(vibration_model,FSAE_Race_Car)
         error('Error: Invalid vibration model. Acceptable formats are:\n"quarter_car_1_DOF"\n"quarter_car_2_DOF"\n"half_car_2_DOF"\n"half_car_4_DOF"');
     end
     
-    front_leverage = get_leverage_ratio('front',FSAE_Race_Car);
-    rear_leverage = get_leverage_ratio('rear',FSAE_Race_Car);
-    c_front_suspension = FSAE_Race_Car.suspension_front.c * 12;
-    c_rear_suspension = FSAE_Race_Car.suspension_rear.c * 12;
+
     cf = FSAE_Race_Car.wheel_front.c * 12;
     cr = FSAE_Race_Car.wheel_rear.c * 12; 
-    
-    c1 = c_front_suspension * front_leverage; 
-    c2 = c_rear_suspension * rear_leverage; 
+    c1 = FSAE_Race_Car.suspension_front.c * 12 * get_leverage_ratio('front',FSAE_Race_Car); 
+    c2 = FSAE_Race_Car.suspension_rear.c * 12 * get_leverage_ratio('rear',FSAE_Race_Car); 
     lf = get_cg(FSAE_Race_Car);
     lr = (FSAE_Race_Car.chassis.wheelbase / 12) - lf;
     
     Cs = ((c1) + (c2)) / 2;
+    
     
     if strcmp(vibration_model,'quarter_car_1_DOF') == 1
         C = Cs;
         % Damping matrix for 1/4 car, 1 DOF
         
     elseif strcmp(vibration_model,'quarter_car_2_DOF') == 1
-        C = [Cs, -Cs; -Cs , Cs + (cf + cr)/2];
+        C = [Cs, -Cs;...
+            -Cs , Cs + (cf + cr)/2];
         % Damping matrix for 1/4 car, 2 DOF
         
     elseif strcmp(vibration_model, 'half_car_2_DOF') == 1

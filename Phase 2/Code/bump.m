@@ -47,7 +47,7 @@ function[R, dRdt] = bump(length, height, top, X, V)
         error('Error: V must be positive');
     end
     
-    R = height/2*(1-cos(phi_bump(X, length, top)));
-    dRdt = pi* height/(length-top)*sin(phi_bump(X, length, top))*V;
+    R = height/2 * (1- cos(phi_bump(X, length, top)));
+    dRdt = pi * height/(length-top) * sin(phi_bump(X, length, top))*V;
 end
 

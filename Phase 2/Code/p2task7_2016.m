@@ -1,6 +1,6 @@
 clc; clear all; close all;
 
-%%
+%% 2016 Quarter Car 1 DOF
 ff_2016_1;
 D = ff_data;
 FN = @(t, D) get_forcing_function(t, D);
@@ -15,7 +15,7 @@ K = get_stiffness_matrix(D.model, D.car);
 [T_1, X_1, V_1, A_1] = Newmark(X0, V0, A0, M, C, K, FN, D);
 
 
-%%
+%% 2016 Quarter Car 2 DOF
 ff_2016_2;
 D = ff_data;
 FN = @(t, D) get_forcing_function(t, D);
@@ -29,7 +29,7 @@ K = get_stiffness_matrix(D.model, D.car);
 
 [T_2, X_2, V_2, A_2] = Newmark(X0, V0, A0, M, C, K, FN, D);
 
-%%
+%% 2016 Half Car 2 DOF
 ff_2016_3;
 D = ff_data;
 FN = @(t, D) get_forcing_function(t, D);
@@ -43,7 +43,7 @@ K = get_stiffness_matrix(D.model, D.car);
 
 [T_3, X_3, V_3, A_3] = Newmark(X0, V0, A0, M, C, K, FN, D);
 
-%%
+%% 2016 Half Car 4 DOF
 ff_2016_4;
 D = ff_data;
 FN = @(t, D) get_forcing_function(t, D);
@@ -58,7 +58,7 @@ K = get_stiffness_matrix(D.model, D.car);
 
 [T_4, X_4, V_4, A_4] = Newmark(X0, V0, A0, M, C, K, FN, D);
 
-%%
+%% Display heave (in feet) in your first figure (cars 1, 2, 3, 4)
 figure;
 subplot(3,1,1)
 plot(T_1,X_1(:,1),'black',...
@@ -81,7 +81,7 @@ plot(T_1,A_1(:,1),'black',...
     T_4,A_4(:,1)),'green';
 title('Accelerations: Heave of Car Hitting a Tar Strip');
 
-%%
+%% Display pitch (in degrees) in your second figure (cars 3, 4)
 figure;
 subplot(3,1,1)
 plot(T_3,X_3(:,2),'blue',...
@@ -98,7 +98,7 @@ plot(T_3,A_3(:,2),'blue',...
     T_4,A_4(:,2)),'green';
 title('Rate of Spin: Pitch of Car Hitting a Tar Strip');
 
-%%
+%% Display front axle motion in your third figure (cars 2, 4)
 figure;
 subplot(3,1,1)
 plot(T_2,X_2(:,2),'red',...
@@ -115,7 +115,7 @@ plot(T_2,A_2(:,2),'red',...
     T_4,A_4(:,3)),'green';
 title('Accelerations: Front Axle of Car Hitting a Tar Strip');
 
-%%
+%% Display rear axle motion in your fourth figure (car 4)
 figure;
 subplot(3,1,1)
 plot(T_4,X_4(:,4)),'green';

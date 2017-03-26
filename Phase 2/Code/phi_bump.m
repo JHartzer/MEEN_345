@@ -15,10 +15,13 @@ function [ phi ] = phi_bump( X, length, top)
     
     if 0 <= X && X < (length-top)/2
         phi = 2*pi*X/(length-top);
+        
     elseif X <= (length+top)/2
         phi = pi;
+    
     elseif X <= length
         phi = 2*pi*(X-top)/(length-top);
+    
     else
         error('Error: X must satisfy 0 < X < length');
     end

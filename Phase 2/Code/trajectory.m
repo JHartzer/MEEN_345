@@ -75,7 +75,7 @@ function [t, X, V] = trajectory(t, X, h, t_in, t_out, V_in, V_out, FSAE_Race_Car
         error('Error: V_out must be less than top speed')
     elseif (V_out - V_in)/(t_out - t_in) > FSAE_Race_Car.top_speed/t_top
         error('Error: function specifies an acceleration that exceeds capability of vehicle')
-    elseif -1.4 * 32.174 > (V_out - V_in)*5280/3600 /(t_out - t_in) % Converts from mph to ft/s
+    elseif -1.4 * 32.174 > (V_out - V_in)*5280/3600 /(t_out - t_in)
         error('Error: function specifies brake that exceed capability of vehicle')
     end
     
