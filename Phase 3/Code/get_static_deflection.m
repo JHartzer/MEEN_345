@@ -31,25 +31,29 @@ function [ z0 ] = get_static_deflection(vibration_model,FSAE_Race_Car)
     K = get_stiffness_matrix(vibration_model, FSAE_Race_Car);
     M = get_mass_matrix(vibration_model, FSAE_Race_Car);
 
-    if strcmp(vibration_model, 'quarter_car_1_DOF') == 1
-        z0 = K \ (M * 32.174);
-        % Static deflection for 1/4 car, 1 DOF
-        
-    elseif strcmp(vibration_model, 'quarter_car_2_DOF') == 1
-        ff = [M(1,1); M(2,2)] * 32.174;
-        z0 = K \ ff;
-        % Static deflection for 1/4 car, 2 DOF
-        
-    elseif strcmp(vibration_model, 'half_car_2_DOF') == 1
-        ff = [M(1,1) * 32.174; 0];
-        z0 = K \ ff;
-        % Static deflection for 1/2 car, 2 DOF
-        
-    elseif strcmp(vibration_model, 'half_car_4_DOF') == 1
-        ff = [M(1,1); 0; M(3,3); M(4,4)] * 32.174;
-        z0 = K \ ff;
-        % Static deflection for 1/2 car, 4 DOF
-        
+    switch vibration_model
+        case 'quarter_car_1_DOF'
+            z0 = K \ (M * 32.174);
+
+        case 'quarter_car_2_DOF'
+            ff = [M(1,1); M(2,2)] * 32.174;
+            z0 = K \ ff;
+
+        case 'half_car_2_DOF'
+            ff = [M(1,1) * 32.174; 0];
+            z0 = K \ ff;
+
+        case 'half_car_4_DOF'
+            ff = [M(1,1); 0; M(3,3); M(4,4)] * 32.174;
+            z0 = K \ ff;
+            
+        case 'full_car_3_DOF'
+            ff = [M(1,1);0;0];
+            z0 = K \ ff;
+            
+        case 'full_car_7_DOF'
+            ff = [M(1,1);0;0;M(4,4);M(5,5);M(6,6);M(7,7)] * 32.174;
+            z0 = K \ ff;
     end
 end
 

@@ -24,7 +24,7 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
     
     [t, X, V] =   ff_data.trajectory(ff_data.t_prev, ff_data.X_prev, (ff_data.t_out - ff_data.t_in)/ff_data.N, ff_data.t_in, ff_data.t_out, ff_data.V_in, ff_data.V_out, ff_data.car);
     [R_f_d, R_r_d, dRdt_f_d, dRdt_r_d] = ff_data.roadway_d(ff_data.car.chassis.wheelbase/12, ff_data.X_enter_d, X, V);
-    %[R_f_p, R_r_p, dRdt_f_p, dRdt_r_p] = ff_data.roadway_p(ff_data.car.chassis.wheelbase/12, ff_data.X_enter_p, X, V);
+    [R_f_p, R_r_p, dRdt_f_p, dRdt_r_p] = ff_data.roadway_p(ff_data.car.chassis.wheelbase/12, ff_data.X_enter_p, X, V);
 
     M = get_mass_matrix(ff_data.model, ff_data.car);
     C = get_damping_matrix(ff_data.model,ff_data.car);
@@ -45,27 +45,41 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
     c1 = ff_data.car.suspension_front.c * 12 * front_leverage; 
     c2 = ff_data.car.suspension_rear.c * 12 * rear_leverage; 
     
+    rf = 1;
+    rr = 1;
     
     
-    
-    if strcmp(ff_data.model, 'quarter_car_1_DOF') == 1
-        FF = M * 32.174 - C * dRdt_f_d - K * R_f_d;
-        
-    elseif strcmp(ff_data.model, 'quarter_car_2_DOF') == 1
-        FF = [M(1,1) * 32.174;...
-            M(2,2) * 32.174 - (cf + cr)/2 * dRdt_f_d - (kf + kr)/2 * R_f_d];
-                    
-    elseif strcmp(ff_data.model, 'half_car_2_DOF') == 1
-               
-        FF = [M(1,1) * 32.174 - c1 * dRdt_f_d - c2 * dRdt_r_d - k1 * R_f_d - k2 * R_r_d;...
-            c1 * lf * dRdt_f_d - c2 * lr * dRdt_r_d + k1 * lf * R_f_d - k2 * lr * R_r_d];
-        
-    elseif strcmp(ff_data.model, 'half_car_4_DOF') == 1
+    switch ff_data.model
+        case 'quarter_car_1_DOF'
+            FF = M * 32.174 - C * dRdt_f_d - K * R_f_d;
 
-        FF = [M(1,1) * 32.174;...
-            0;...
-            M(3,3) * 32.174 - cf * dRdt_f_d - kf * R_f_d;...
-            M(4,4) * 32.174 - cr * dRdt_r_d - kr * R_r_d];
+        case 'quarter_car_2_DOF'
+            FF = [M(1,1) * 32.174;...
+                M(2,2) * 32.174 - (cf + cr)/2 * dRdt_f_d - (kf + kr)/2 * R_f_d];
+
+        case 'half_car_2_DOF'
+            FF = [M(1,1) * 32.174 - c1 * dRdt_f_d - c2 * dRdt_r_d - k1 * R_f_d - k2 * R_r_d;...
+                c1 * lf * dRdt_f_d - c2 * lr * dRdt_r_d + k1 * lf * R_f_d - k2 * lr * R_r_d];
+
+        case 'half_car_4_DOF'
+            FF = [M(1,1) * 32.174;...
+                0;...
+                M(3,3) * 32.174 - cf * dRdt_f_d - kf * R_f_d;...
+                M(4,4) * 32.174 - cr * dRdt_r_d - kr * R_r_d];
+            
+        case 'full_car_3_DOF'
+            FF = [M(1,1) - c1*dRdt_df - c2*dRdt_pf - c3*dRdt_pr - c4*dRdt_dr - k1*R_f_d - k2*R_f_p - k3*R_r_p - k4*R_r_d;...
+                (c1*dRdt_f_d + c2*dRdt_f_p + k1*R_f_d + k2*R_f_p)*lf - (c3*dRdt_r_p + c4*dRdt_r_d + k3*R_r_p + k4*R_r_d)*lr;...
+                (c1*dRdt_f_d - c2*dRdt_f_p + k1*R_f_d - k2*R_f_p)*rf - (c3*dRdt_r_p - c4*dRdt_r_d + k3*R_r_p - k4*R_r_d)*rr];
+            
+        case 'full_car_7_DOF'
+            FF = [M(1,1);...
+                0;...
+                0;...
+                M(4,4) - c1*dRdt_f_d - k1*R_f_d;...
+                M(5,5) - c1*dRdt_f_p - k1*R_f_p;...
+                M(6,6) - c2*dRdt_r_p - k2*R_r_p;...
+                M(7,7) - c2*dRdt_r_d - k2*R_r_d];
     end
     
     ff_data.t_prev = t; 
