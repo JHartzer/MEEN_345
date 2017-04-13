@@ -1,9 +1,9 @@
-function [R_f, R_r, dRdt_f, dRdt_r] = agony(wheelbase, X_enter, X, V)
-    %agony - A function that returns the forcing function for a 
-    %   vehicle driving down agony road
+function [R_f, R_r, R_dot_f, R_dot_r] = tar_strip(wheelbase, X_enter, X, V)
+    %tar_strip - A function that returns the forcing function for a 
+    %   vehicle driving over a tar strip
     %
     %   USAGE
-    %[R_f, R_r, R_dot_f, R_dot_r] = agony(wheelbase, X_enter, X, V)
+    %[R_f, R_r, R_dot_f, R_dot_r] = tar_strip(wheelbase, X_enter, X, V)
     %
     %   INPUT 
     %wheelbase  Distance between axles (in ft) 
@@ -41,33 +41,25 @@ function [R_f, R_r, dRdt_f, dRdt_r] = agony(wheelbase, X_enter, X, V)
         error('Error: V must be nonnegative')
     end
     
-    X = X-3;
+    length = 2/12;
+    height = 0.125/12;
+    top = 1.5/12;
+    
     % Front wheel
-    if X <= X_enter || X - X_enter >= 25 + 1 + 15 + 2
+    if X <= X_enter || X - X_enter > length
         R_f = 0;
-        dRdt_f = 0;
-    elseif X - X_enter < 25
-        [R_f, dRdt_f] = bump(25, 1, 0, X - X_enter, V);
-    elseif X - X_enter < 25 + 1
-        [R_f, dRdt_f] = bump(1, -3/12, 0.75, X - X_enter - 25, V);
-    elseif X - X_enter < 25 + 1 + 15
-        [R_f, dRdt_f] = bump(15, -1, 3, X - X_enter - (25 + 1), V);
-    elseif X - X_enter < 25 + 1 + 15 + 2
-        [R_f, dRdt_f] = bump(2, -3/12, 1.75, X - X_enter - (25 + 1 + 15), V);
+        R_dot_f = 0;
+    else
+        [R_f, R_dot_f] = bump(length, height, top, X - X_enter, V);
     end
     
     % Rear wheel
     X_rear = X - wheelbase;
-    if X_rear <= X_enter || X_rear - X_enter >= 25 + 1 + 15 + 2
+    if X_rear < X_enter || X_rear - X_enter > length
         R_r = 0;
-        dRdt_r = 0;
-    elseif X_rear - X_enter < 25
-        [R_r, dRdt_r] = bump(25, 1, 0, X_rear - X_enter, V);
-    elseif X_rear - X_enter < 25 + 1
-        [R_r, dRdt_r] = bump(1, -3/12, 0.75, X_rear - X_enter - 25, V);
-    elseif X_rear - X_enter < 25 + 1 + 15
-        [R_r, dRdt_r] = bump(15, -1, 3, X_rear - X_enter - (25 + 1), V);
-    elseif X_rear - X_enter < 25 + 1 + 15 + 2
-        [R_r, dRdt_r] = bump(2, -3/12, 1.75, X_rear - X_enter - (25 + 1 + 15), V);
+        R_dot_r = 0;
+    else
+        [R_r, R_dot_r] = bump(length, height, top, X_rear - X_enter, V);
     end
 end
+
