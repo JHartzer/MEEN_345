@@ -59,7 +59,7 @@ function [ z0 ] = get_static_deflection(vibration_model,FSAE_Race_Car)
             z0 = K \ ff;
             
         case 'full_car_3_DOF'
-            ff = [M(1,1);0;0];
+            ff = [M(1,1)*32.174;0;0];
             z0 = K \ ff;
             
         case 'full_car_7_DOF'

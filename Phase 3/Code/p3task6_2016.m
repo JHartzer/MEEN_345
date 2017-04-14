@@ -78,7 +78,7 @@ K = get_stiffness_matrix(D.model, D.car);
 [T_5B, X_5B, V_5B, A_5B] = Beeman(X0, V0, zeros(DOF, 3), M, C, K, FN, D);
 
 %% 2016 Full Car 7 DOF
-ff_2016_4;
+ff_2016_6;
 D = ff_data;
 FN = @(t, D) get_forcing_function(t, D);
 X0 = get_static_deflection(D.model, D.car);
