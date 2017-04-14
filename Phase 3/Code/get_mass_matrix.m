@@ -66,7 +66,7 @@ function [M] =  get_mass_matrix(vibration_model,FSAE_Race_Car)
             M = diag([m/2, Jy/2, w_wheel_front/32.174, w_wheel_rear/32.174]);
             
         case 'full_car_3_DOF'
-            M = diag([]);
+            M = diag([m,Jy,Jx]);
             
         case 'full_car_7_DOF'
             M = diag([m,Jy,Jx,w_wheel_front/32.174,w_wheel_front/32.174,w_wheel_rear/32.174,w_wheel_rear/32.174]); 

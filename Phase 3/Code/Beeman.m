@@ -26,64 +26,67 @@ function [T, X, V, A] = Beeman(X0, V0, A0, M, C, K, FN, D)
     
     if ~isstruct(D)
        Error('D, the forcing function data structure, must be a struct.');
-    end
-    if D.t_out <= D.t_in
+    elseif D.t_out <= D.t_in
        Error('The final time t_out must be greater than the initial time t_in.');
-    end
-    if D.N < 1
+    elseif D.N < 1
        Error('The number of integration cannot be less than one.');
     end
+    
     dof = size(X0,1);
     if size(V0,1) ~= dof
        Error('The length of vectors X0 and V0 must be the same.');
+    elseif size(A0,1) ~= dof
+       error('The length of vectors X0, V0 and A0 must be the same.');
     end
-    if size(A0,1) ~= dof
-       Error('The length of vectors X0, V0 and A0 must be the same.');
-    end
+    
     [rows, cols] = size(M);
     if (rows ~= dof) || (cols ~= dof)
-       Error('The mass matrix must have dimension DOFxDOF.');
+       error('The mass matrix must have dimension DOFxDOF.');
     end
     [rows, cols] = size(C);
     if (rows ~= dof) || (cols ~= dof)
-       Error('The damping matrix must have dimension DOFxDOF.');
+       error('The damping matrix must have dimension DOFxDOF.');
     end
     [rows, cols] = size(K);
     if (rows ~= dof) || (cols ~= dof)
-       Error('The stiffness matrix must have dimension DOFxDOF.');
+       error('The stiffness matrix must have dimension DOFxDOF.');
     end
 
     % Set the step size.
     h = (D.t_out - D.t_in)/D.N; 
 
     T = zeros(D.N+1,1);
-    X = zeros(D.N+1,dof);
-    V = zeros(D.N+1,dof);
-    A = zeros(D.N+3,dof);
+    X = zeros(dof, D.N+1);
+    V = zeros(dof, D.N+1);
+    A = zeros(dof, D.N+3);
 
     % Assign initial conditions to the output fields.
     T(1) = D.t_in;
-    X(1,:) = X0';
-    V(1,:) = V0';
-    A(1:3,:) = fliplr(A0(:,1:3)');
-    
+    X(:,1) = X0;
+    V(:,1) = V0;
+    A(:,1:3) = fliplr(A0);
+
     % Integrate over the interval [T0,TN].
     for nn=1:D.N
         T(nn+1) = T(nn) + h;
 
         % Predict (P) using explicit integrators to estimate the displacement and velocity vectors.
-        X(nn+1) = X(nn) + h * V(nn) + h^2/6*(4*A(nn+2)-A(nn+1));
-        V(nn+1) = V(nn) + h/12 * (23*A(nn+2) - 16*A(nn+1) + 5*A(nn));
+        X(:,nn+1) = X(:,nn) + h * V(:,nn) + h^2/6*(4*A(:,nn+2)-A(:,nn+1));
+        V(:,nn+1) = V(:,nn) + h/12 * (23*A(:,nn+2) - 16*A(:,nn+1) + 5*A(:,nn));
         
         % Evaluate (E) the acceleration vector using these predicted values for displacement and velocity
-        A(nn+3) = M\(FN(T(nn+1) - C*V(nn+1) - K*X(nn+1)));
+        A(:,nn+3) = M\(FN(T(nn+1),D) - C*V(:,nn+1) - K*X(:,nn+1));
         
         % Correct (C) the predicted estimates using implicit Adams-Moulton methods to get improved solutions for the displacement and velocity vectors, thereby enhancing algorithmic stability.
-        X(nn+1) = X(nn) + h * V(nn) + h^2/6 * (A(nn+3) + 2*A(nn+2));
-        V(nn+1) = V(nn) + h/2 * (A(nn+3) + A(nn+2));
+        X(:,nn+1) = X(:,nn) + h * V(:,nn) + h^2/6 * (A(:,nn+3) + 2*A(:,nn+2));
+        V(:,nn+1) = V(:,nn) + h/2 * (A(:,nn+3) + A(:,nn+2));
         
         % Re-Evaluate (E) the acceleration vector using corrected values for displacement and velocity. 
-        A(nn+3) = M\(FN(T(nn+1) - C*V(nn+1) - K*X(nn+1)));
+        [FF, D] = FN(T(nn+1),D);
+        A(:,nn+3) = M\(FF - C*V(:,nn+1) - K*X(:,nn+1));
         
     end
+    A = A';
+    V = V';
+    X = X';
 end

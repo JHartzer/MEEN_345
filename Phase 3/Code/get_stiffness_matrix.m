@@ -50,6 +50,9 @@ function [ K ] = get_stiffness_matrix(vibration_model,FSAE_Race_Car)
     
     Ks = (k1 + k2) / 2;
        
+    rf = 1;
+    rr = 1;
+    
     switch vibration_model
         case 'quarter_car_1_DOF'
             K = Ks;
@@ -62,6 +65,12 @@ function [ K ] = get_stiffness_matrix(vibration_model,FSAE_Race_Car)
             K = [k1 + k2, ((k2 * lr) - (k1 * lf));...
                 ((k2 * lr) - (k1 * lf)), ((k1 * (lf^2)) + (k2 * (lr^2)))];
 
+        case 'half_car_4_DOF'
+            K = [Ks*2, ((k2 * lr) - (k1 * lf)), -(k1), -(k2);...
+                ((k2 * lr) - (k1 * lf)), ((k1 * (lf^2)) + (k2 * (lr^2))), (k1 * lf), -(k2 * lr);...
+                -(k1), (k1 * lf), (k1 + kf), 0;...
+                -(k2), -(k2 * lr), 0, (k2 + kr)];
+            
         case 'full_car_3_DOF'
             k3 = k2; k4 = k2; k2 = k1;
             K = [k1+k2+k3+k4, (k3+k4)*lr - (k1+k2)*lf, (k3-k4)*rr - (k1-k2)*rf;...

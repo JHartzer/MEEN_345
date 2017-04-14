@@ -12,7 +12,7 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
     %   OUTPUT
     %FF         forcing function
     %ff_data    updated data structure to pass back in next call
-    
+
     if ~isstruct(ff_data)
         error(['Error: Input type.\n\t',...
             'ff_data must be a scalar, not a %s'],class(ff_data));
@@ -68,7 +68,9 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
                 M(4,4) * 32.174 - cr * dRdt_r_d - kr * R_r_d];
             
         case 'full_car_3_DOF'
-            FF = [M(1,1) - c1*dRdt_df - c2*dRdt_pf - c3*dRdt_pr - c4*dRdt_dr - k1*R_f_d - k2*R_f_p - k3*R_r_p - k4*R_r_d;...
+            c3 = c2; c4 = c2; c2 = c1;
+            k3 = k2; k4 = k2; k2 = k1;
+            FF = [M(1,1) - c1*dRdt_f_d - c2*dRdt_f_p - c3*dRdt_r_p - c4*dRdt_r_d - k1*R_f_d - k2*R_f_p - k3*R_r_p - k4*R_r_d;...
                 (c1*dRdt_f_d + c2*dRdt_f_p + k1*R_f_d + k2*R_f_p)*lf - (c3*dRdt_r_p + c4*dRdt_r_d + k3*R_r_p + k4*R_r_d)*lr;...
                 (c1*dRdt_f_d - c2*dRdt_f_p + k1*R_f_d - k2*R_f_p)*rf - (c3*dRdt_r_p - c4*dRdt_r_d + k3*R_r_p - k4*R_r_d)*rr];
             

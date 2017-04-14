@@ -67,7 +67,8 @@ plot(T_1,X_1(:,1),'black',...
 title('Displacements: Heave of Car Hitting a Speed Bump');
 xlabel('Time [s]');
 ylabel('Displacement [ft]');
-legend('1/4 car 1 DOF','1/4 car 2 DOF','1/2 car 2 DOF','1/2 car 4 DOF');
+legend(['1/4 car 1 DOF','1/4 car 2 DOF',...
+    '1/2 car 2 DOF','1/2 car 4 DOF']);
 
 subplot(3,1,2)
 plot(T_1,V_1(:,1),'black',...
