@@ -41,6 +41,7 @@ function [R_f, R_r, R_dot_f, R_dot_r] = tar_strip(wheelbase, X_enter, X, V)
         error('Error: V must be nonnegative')
     end
     
+    % Defines Tar Strip
     length = 2/12;
     height = 0.125/12;
     top = 1.5/12;

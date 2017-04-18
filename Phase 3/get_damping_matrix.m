@@ -8,9 +8,13 @@ function [ C ] = get_damping_matrix(vibration_model,FSAE_Race_Car)
     %
     %   INPUT
     % vibration_model    a char defining which type of model is being
-    %                   used. Can be either "quarter_car_1_DOF",
-    %                   "quarter_car_2_DOF", "half_car_2_DOF",
-    %                   or "half_car_4_DOF".
+    %                   used. Acceptable formats are:
+    %                   "quarter_car_1_DOF",
+    %                   "quarter_car_2_DOF", 
+    %                   "half_car_2_DOF",
+    %                   "half_car_4_DOF",
+    %                   "full_car_3_DOF",
+    %                   "full_car_7_DOF".
     % FSAE_Race_Car      a struct defining which car to do analysis on
     %
     %   OUTPUT
@@ -45,13 +49,15 @@ function [ C ] = get_damping_matrix(vibration_model,FSAE_Race_Car)
     cf = FSAE_Race_Car.wheel_front.c * 12;
     cr = FSAE_Race_Car.wheel_rear.c * 12; 
     c1 = FSAE_Race_Car.suspension_front.c * 12 * get_leverage_ratio('front',FSAE_Race_Car); 
-    c2 = FSAE_Race_Car.suspension_rear.c * 12 * get_leverage_ratio('rear',FSAE_Race_Car); 
+    c2 = c1;
+    c3 = FSAE_Race_Car.suspension_rear.c * 12 * get_leverage_ratio('rear',FSAE_Race_Car); 
+    c4 = c3;
     lf = get_cg(FSAE_Race_Car);
     lr = (FSAE_Race_Car.chassis.wheelbase / 12) - lf;
     rf = FSAE_Race_Car.chassis.radius_f/12;
     rr = FSAE_Race_Car.chassis.radius_r/12;
     
-    Cs = ((c1) + (c2)) / 2;
+    Cs = ((c1) + (c3)) / 2;
     
     switch vibration_model
         case 'quarter_car_1_DOF'
@@ -62,23 +68,21 @@ function [ C ] = get_damping_matrix(vibration_model,FSAE_Race_Car)
                 -Cs , Cs + (cf + cr)/2];
 
         case 'half_car_2_DOF'
-            C = [c1 + c2, ((c2 * lr) - (c1 * lf));...
-                ((c2 * lr) - (c1 * lf)), ((c1 * (lf^2)) + (c2 * (lr^2)))];
+            C = [c1 + c3, ((c3 * lr) - (c1 * lf));...
+                ((c3 * lr) - (c1 * lf)), ((c1 * (lf^2)) + (c3 * (lr^2)))];
 
         case 'half_car_4_DOF'
-            C = [Cs*2, ((c2 * lr) - (c1 * lf)), -(c1), -(c2);...
-                ((c2 * lr) - (c1 * lf)), ((c1 * (lf^2)) + (c2 * (lr^2))), (c1 * lf), -(c2 * lr);...
+            C = [Cs*2, ((c3 * lr) - (c1 * lf)), -(c1), -(c3);...
+                ((c3 * lr) - (c1 * lf)), ((c1 * (lf^2)) + (c3 * (lr^2))), (c1 * lf), -(c3 * lr);...
                 -(c1), (c1 * lf), (c1 + cf), 0;...
-                -(c2), -(c2 * lr), 0, (c2 + cr)];
+                -(c3), -(c3 * lr), 0, (c3 + cr)];
 
         case 'full_car_3_DOF'
-            c3 = c2; c4 = c2; c2 = c1;
             C = [c1+c2+c3+c4, (c3+c4)*lr - (c1+c2)*lf, (c3-c4)*rr - (c1-c2)*rf;...
                 (c3+c4)*lr - (c1+c2)*lf, (c1+c2)*lf^2 + (c3+c4)*lr^2, (c1-c2)*lf*rf + (c3-c4)*lr*rr;...
                 (c3-c4)*rr - (c1-c2)*rf, (c1-c2)*lf*rf + (c3-c4)*lr*rr, (c1+c2)*rf^2 + (c3+c4)*rr^2];
             
         case 'full_car_7_DOF'
-            c3 = c2; c4 = c2; c2 = c1;
             cdf = cf; cpf = cf;
             cdr = cr; cpr = cr;
             

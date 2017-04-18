@@ -7,9 +7,13 @@ function [ z0 ] = get_static_deflection(vibration_model,FSAE_Race_Car)
     %
     %   INPUT
     % vibration_model    a char defining which type of model is being
-    %                   used. Can be either "quarter_car_1_DOF",
-    %                   "quarter_car_2_DOF", "half_car_2_DOF",
-    %                   or "half_car_4_DOF".
+    %                   used. Acceptable formats are:
+    %                   "quarter_car_1_DOF",
+    %                   "quarter_car_2_DOF", 
+    %                   "half_car_2_DOF",
+    %                   "half_car_4_DOF",
+    %                   "full_car_3_DOF",
+    %                   "full_car_7_DOF".
     % FSAE_Race_Car      a struct defining which car to do analysis on
     %
     %   OUTPUT

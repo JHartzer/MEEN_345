@@ -7,9 +7,13 @@ function [M] =  get_mass_matrix(vibration_model,FSAE_Race_Car)
     %
     %   INPUT
     % vibration_model    a char defining which type of model is being
-    %                   used. Can be either "quarter_car_1_DOF",
-    %                   "quarter_car_2_DOF", "half_car_2_DOF",
-    %                   or "half_car_4_DOF".
+    %                   used. Acceptable formats are:
+    %                   "quarter_car_1_DOF",
+    %                   "quarter_car_2_DOF", 
+    %                   "half_car_2_DOF",
+    %                   "half_car_4_DOF",
+    %                   "full_car_3_DOF",
+    %                   "full_car_7_DOF".
     % FSAE_Race_Car      a struct defining which car to do analysis on
     %
     %   OUTPUT
@@ -41,35 +45,35 @@ function [M] =  get_mass_matrix(vibration_model,FSAE_Race_Car)
             '\n"full_car_7_DOF"%s'],'');
     end
     
-    w_pilot = FSAE_Race_Car.pilot.weight;
-    w_engine = FSAE_Race_Car.power_plant.weight;
-    w_chassis = FSAE_Race_Car.chassis.weight;
-    w_wheel_front = FSAE_Race_Car.wheel_front.weight;
-    w_wheel_rear = FSAE_Race_Car.wheel_rear.weight;
+    m_pilot = FSAE_Race_Car.pilot.weight / 32.174;
+    m_engine = FSAE_Race_Car.power_plant.weight / 32.174;
+    m_chassis = FSAE_Race_Car.chassis.weight / 32.174;
+    m_wheel_front = FSAE_Race_Car.wheel_front.weight / 32.174;
+    m_wheel_rear = FSAE_Race_Car.wheel_rear.weight / 32.174;
     
     Jy = get_Jy(FSAE_Race_Car);
     Jx = get_Jx(FSAE_Race_Car);
     
-    m = (w_pilot + w_engine + w_chassis)/32.174;
+    m = m_pilot + m_engine + m_chassis;
     
     switch vibration_model
         case 'quarter_car_1_DOF'
             M = m/4;
 
         case 'quarter_car_2_DOF'
-            M = diag([m/4,(w_wheel_front + w_wheel_rear)/2/32.174]);
+            M = diag([m/4,(m_wheel_front + m_wheel_rear)/2]);
 
         case 'half_car_2_DOF'
             M = diag([m/2, Jy/2]);
 
         case 'half_car_4_DOF'
-            M = diag([m/2, Jy/2, w_wheel_front/32.174, w_wheel_rear/32.174]);
+            M = diag([m/2, Jy/2, m_wheel_front, m_wheel_rear]);
             
         case 'full_car_3_DOF'
             M = diag([m,Jy,Jx]);
             
         case 'full_car_7_DOF'
-            M = diag([m,Jy,Jx,w_wheel_front/32.174,w_wheel_front/32.174,w_wheel_rear/32.174,w_wheel_rear/32.174]); 
+            M = diag([m,Jy,Jx,m_wheel_front,m_wheel_front,m_wheel_rear,m_wheel_rear]); 
     end
 end
 

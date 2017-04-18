@@ -41,7 +41,9 @@ function [R_f, R_r, dRdt_f, dRdt_r] = agony(wheelbase, X_enter, X, V)
         error('Error: V must be nonnegative')
     end
     
+    % Initial 3ft flat section
     X = X-3;
+    
     % Front wheel
     if X <= X_enter || X - X_enter >= 25 + 1 + 15 + 2
         R_f = 0;

@@ -41,6 +41,7 @@ function [R_f, R_r, R_dot_f, R_dot_r] = speed_bump(wheelbase, X_enter, X, V)
         error('Error: V must be nonnegative')
     end
     
+    % Defines Speed Bump
     length = 1;
     height = 2/12;
     top = 3/12;

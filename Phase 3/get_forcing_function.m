@@ -38,12 +38,16 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
     kf = ff_data.car.wheel_front.k * 12;
     kr = ff_data.car.wheel_rear.k * 12;
     k1 = ff_data.car.suspension_front.k * 12 * front_leverage;
-    k2 = ff_data.car.suspension_rear.k * 12 * rear_leverage;
+    k2 = k1;
+    k3 = ff_data.car.suspension_rear.k * 12 * rear_leverage;
+    k4 = k3;
     
     cf = ff_data.car.wheel_front.c * 12;
     cr = ff_data.car.wheel_rear.c * 12;
     c1 = ff_data.car.suspension_front.c * 12 * front_leverage; 
-    c2 = ff_data.car.suspension_rear.c * 12 * rear_leverage; 
+    c2 = c1;
+    c3 = ff_data.car.suspension_rear.c * 12 * rear_leverage; 
+    c4 = c3;
     
     rf = ff_data.car.chassis.radius_f/12;
     rr = ff_data.car.chassis.radius_r/12;
@@ -58,8 +62,8 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
                 M(2,2) * 32.174 - (cf + cr)/2 * dRdt_f_d - (kf + kr)/2 * R_f_d];
 
         case 'half_car_2_DOF'
-            FF = [M(1,1) * 32.174 - c1 * dRdt_f_d - c2 * dRdt_r_d - k1 * R_f_d - k2 * R_r_d;...
-                c1 * lf * dRdt_f_d - c2 * lr * dRdt_r_d + k1 * lf * R_f_d - k2 * lr * R_r_d];
+            FF = [M(1,1) * 32.174 - c1 * dRdt_f_d - c3 * dRdt_r_d - k1 * R_f_d - k3 * R_r_d;...
+                c1 * lf * dRdt_f_d - c3 * lr * dRdt_r_d + k1 * lf * R_f_d - k3 * lr * R_r_d];
 
         case 'half_car_4_DOF'
             FF = [M(1,1) * 32.174;...
@@ -68,8 +72,6 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
                 M(4,4) * 32.174 - cr * dRdt_r_d - kr * R_r_d];
             
         case 'full_car_3_DOF'
-            c3 = c2; c4 = c2; c2 = c1;
-            k3 = k2; k4 = k2; k2 = k1;
             FF = [M(1,1) * 32.174 - c1*dRdt_f_d - c2*dRdt_f_p - c3*dRdt_r_p - c4*dRdt_r_d - k1*R_f_d - k2*R_f_p - k3*R_r_p - k4*R_r_d;...
                 (c1*dRdt_f_d + c2*dRdt_f_p + k1*R_f_d + k2*R_f_p)*lf - (c3*dRdt_r_p + c4*dRdt_r_d + k3*R_r_p + k4*R_r_d)*lr;...
                 (c1*dRdt_f_d - c2*dRdt_f_p + k1*R_f_d - k2*R_f_p)*rf - (c3*dRdt_r_p - c4*dRdt_r_d + k3*R_r_p - k4*R_r_d)*rr];

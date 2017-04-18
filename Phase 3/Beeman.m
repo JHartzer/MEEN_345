@@ -2,6 +2,10 @@ function [T, X, V, A] = Beeman(X0, V0, A0, M, C, K, FN, D)
     %Beeman - Implements Beeman's algorithm for integrating the 
     %   second-order ODE
     %
+    %       d^2{x}       d{x}
+    %   [M] ------ + [C] ---- + [K]{x} = {FF}(t,D)
+    %        dt^2         dt
+    %
     %   USAGE 
     %[T, X, V, A] = Beeman(X0, V0, A0, M, C, K, FN, D) 
     %
@@ -51,18 +55,11 @@ function [T, X, V, A] = Beeman(X0, V0, A0, M, C, K, FN, D)
         error('The length of vectors X0 and V0 must be the same.');
     elseif size(A0,1) ~= dof
         error('The length of vectors X0, V0 and A0 must be the same.');
-    end
-    
-    [rows, cols] = size(M);
-    if (rows ~= dof) || (cols ~= dof)
+    elseif ~all(size(M) == [dof,dof])
         error('The mass matrix must have dimension DOFxDOF.');
-    end
-    [rows, cols] = size(C);
-    if (rows ~= dof) || (cols ~= dof)
+    elseif ~all(size(C) == [dof,dof])
         error('The damping matrix must have dimension DOFxDOF.');
-    end
-    [rows, cols] = size(K);
-    if (rows ~= dof) || (cols ~= dof)
+    elseif ~all(size(K) == [dof,dof])
         error('The stiffness matrix must have dimension DOFxDOF.');
     end
 
@@ -100,7 +97,7 @@ function [T, X, V, A] = Beeman(X0, V0, A0, M, C, K, FN, D)
         A(:,nn+3) = M\(FF - C*V(:,nn+1) - K*X(:,nn+1));
         
     end
-    A = A';
+    A = A(:,3:end)';
     V = V';
     X = X';
 end
