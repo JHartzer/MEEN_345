@@ -48,8 +48,8 @@ function [ C ] = get_damping_matrix(vibration_model,FSAE_Race_Car)
     c2 = FSAE_Race_Car.suspension_rear.c * 12 * get_leverage_ratio('rear',FSAE_Race_Car); 
     lf = get_cg(FSAE_Race_Car);
     lr = (FSAE_Race_Car.chassis.wheelbase / 12) - lf;
-    rf = 1;
-    rr = 1;
+    rf = FSAE_Race_Car.chassis.radius_f/12;
+    rr = FSAE_Race_Car.chassis.radius_r/12;
     
     Cs = ((c1) + (c2)) / 2;
     

@@ -45,8 +45,8 @@ function [FF, ff_data] = get_forcing_function(t, ff_data)
     c1 = ff_data.car.suspension_front.c * 12 * front_leverage; 
     c2 = ff_data.car.suspension_rear.c * 12 * rear_leverage; 
     
-    rf = ff_data.car.chassis.wheelbase/2;
-    rr = rf;
+    rf = ff_data.car.chassis.radius_f/12;
+    rr = ff_data.car.chassis.radius_r/12;
     
     
     switch ff_data.model

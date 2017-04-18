@@ -50,8 +50,8 @@ function [ K ] = get_stiffness_matrix(vibration_model,FSAE_Race_Car)
     
     Ks = (k1 + k2) / 2;
        
-    rf = 1;
-    rr = 1;
+    rf = FSAE_Race_Car.chassis.radius_f/12;
+    rr = FSAE_Race_Car.chassis.radius_r/12;
     
     switch vibration_model
         case 'quarter_car_1_DOF'

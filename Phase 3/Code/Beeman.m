@@ -25,31 +25,45 @@ function [T, X, V, A] = Beeman(X0, V0, A0, M, C, K, FN, D)
     %A      matrix      accelerations, size (D.N+1)xDOF (ft/sec2 or rad/sec2) 
     
     if ~isstruct(D)
-       Error('D, the forcing function data structure, must be a struct.');
+        error('Error: The forcing function data structure, D, must be a struct.');
+    elseif ~isnumeric(X0)
+        error('Error: input X0 must be a numeric array')
+    elseif ~isnumeric(V0)
+        error('Error: input V0 must be a numeric array')
+    elseif ~isnumeric(A0)
+        error('Error: input A0 must be a numeric array')
+    elseif ~isnumeric(M)
+        error('Error: input M must be a numeric array')
+    elseif ~isnumeric(C)
+        error('Error: input C must be a numeric array')
+    elseif ~isnumeric(K)
+        error('Error: input K must be a numeric array')
+    elseif ~isa(FN,'function_handle')
+        error('Error: input FN must be a function handle')
     elseif D.t_out <= D.t_in
-       Error('The final time t_out must be greater than the initial time t_in.');
+        error('The final time t_out must be greater than the initial time t_in.');
     elseif D.N < 1
-       Error('The number of integration cannot be less than one.');
+        error('The number of integration cannot be less than one.');
     end
     
     dof = size(X0,1);
     if size(V0,1) ~= dof
-       Error('The length of vectors X0 and V0 must be the same.');
+        error('The length of vectors X0 and V0 must be the same.');
     elseif size(A0,1) ~= dof
-       error('The length of vectors X0, V0 and A0 must be the same.');
+        error('The length of vectors X0, V0 and A0 must be the same.');
     end
     
     [rows, cols] = size(M);
     if (rows ~= dof) || (cols ~= dof)
-       error('The mass matrix must have dimension DOFxDOF.');
+        error('The mass matrix must have dimension DOFxDOF.');
     end
     [rows, cols] = size(C);
     if (rows ~= dof) || (cols ~= dof)
-       error('The damping matrix must have dimension DOFxDOF.');
+        error('The damping matrix must have dimension DOFxDOF.');
     end
     [rows, cols] = size(K);
     if (rows ~= dof) || (cols ~= dof)
-       error('The stiffness matrix must have dimension DOFxDOF.');
+        error('The stiffness matrix must have dimension DOFxDOF.');
     end
 
     % Set the step size.
