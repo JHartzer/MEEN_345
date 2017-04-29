@@ -22,11 +22,11 @@ K = get_stiffness_matrix(D.model, D.car);
 [T_2014, X_2014, V_2014, A_2014] = Beeman(X0, V0, zeros(DOF, 3), M, C, K, FN, D);
 
 % calculate axle plane values
-lf = D.car.chassis.radius_f;
-lr = D.car.chassis.radius_r;
+lf = D.car.chassis.radius_f/12;
+lr = D.car.chassis.radius_r/12;
 L = lf + lr;
-rf = ff_data.car.chassis.wheelbase/2;
-rr = rf;
+rf = D.car.chassis.radius_f/12;
+rr = D.car.chassis.radius_r/12;
 W = rf + rr;
 axle_matrix = [lr/(2*L), lr/(2*L), lf/(2*L), lf/(2*L);...
     -1/(2*L), -1/(2*L), 1/(2*L), 1/(2*L);...
@@ -56,6 +56,7 @@ legend('Chassis Plane','Axle Plane');
 subplot(2,2,3)
 plot(T_2014,X_2014(:,3)*180/pi,'blue',...
     T_2014,z_axle_2014(:,3)*180/pi,'red');
+
 title('Roll of Axle and Chassis Planes of 2014 Car Hitting a Speed Bump');
 xlabel('Time [s]');
 ylabel('Rotation [deg]');
@@ -84,11 +85,11 @@ K = get_stiffness_matrix(D.model, D.car);
 [T_2016, X_2016, V_2016, A_2016] = Beeman(X0, V0, zeros(DOF, 3), M, C, K, FN, D);
 
 % calculate axle plane values
-lf = D.car.chassis.radius_f;
-lr = D.car.chassis.radius_r;
+lf = D.car.chassis.radius_f/12;
+lr = D.car.chassis.radius_r/12;
 L = lf + lr;
-rf = ff_data.car.chassis.wheelbase/2;
-rr = rf;
+rf = D.car.chassis.radius_f/12;
+rr = D.car.chassis.radius_r/12;
 W = rf + rr;
 axle_matrix = [lr/(2*L), lr/(2*L), lf/(2*L), lf/(2*L);...
     -1/(2*L), -1/(2*L), 1/(2*L), 1/(2*L);...
@@ -146,11 +147,11 @@ K = get_stiffness_matrix(D.model, D.car);
 [T_2017, X_2017, V_2017, A_2017] = Beeman(X0, V0, zeros(DOF, 3), M, C, K, FN, D);
 
 % calculate axle plane values
-lf = D.car.chassis.radius_f;
-lr = D.car.chassis.radius_r;
+lf = D.car.chassis.radius_f/12;
+lr = D.car.chassis.radius_r/12;
 L = lf + lr;
-rf = ff_data.car.chassis.wheelbase/2;
-rr = rf;
+rf = D.car.chassis.radius_f/12;
+rr = D.car.chassis.radius_r/12;
 W = rf + rr;
 axle_matrix = [lr/(2*L), lr/(2*L), lf/(2*L), lf/(2*L);...
     -1/(2*L), -1/(2*L), 1/(2*L), 1/(2*L);...

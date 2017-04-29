@@ -22,7 +22,6 @@ function [t, X, V] = trajectory(t, X, h, t_in, t_out, V_in, V_out, FSAE_Race_Car
     %X              location of front axle at end of the step (in ft) 
     %V              velocity of the vehicle at end of step (in ft/sec)
     
-    
     % Data input check
     if isscalar(t) == 0 || ischar(t)
         error(['Error: Input type.',...
@@ -61,7 +60,7 @@ function [t, X, V] = trajectory(t, X, h, t_in, t_out, V_in, V_out, FSAE_Race_Car
         error('Error: t_in must be less than or equal to t')
     elseif h <= 0
         error('Error: h must be positive')
-    elseif t + h > t_out
+    elseif round((t+h)*1000)/1000 > t_out
         error('Error: t+h must be less than or equal to t_out')
     elseif X < 0
         error('Error:  X must be nonnegative')
