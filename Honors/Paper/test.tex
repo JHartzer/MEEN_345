@@ -1,0 +1,277 @@
+\documentclass{beamer}
+
+%Pakete
+% \usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+% \usepackage[ngerman]{babel}
+%\usepackage{ngerman}
+ \usepackage{setspace}
+% \usepackage{relsize} %\mathsmaller
+\usepackage{amsopn} %MathOperator-Definitionen
+\usepackage{xspace} %\xspace
+%  \usepackage{supertabular}
+ \usepackage{amssymb}
+ \usepackage{amsfonts}
+ \usepackage{stmaryrd}
+\usepackage{xcolor}
+\usepackage[dvips]{epsfig}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+
+\usepackage[arrow, matrix, curve]{xy}
+\usepackage[vlined,boxed]{algorithm2e}
+
+%Beamer-style
+\usetheme{Warsaw}
+%\usecolortheme{seahorse,rose}
+%\useinnertheme[shadow]{rounded}
+\setbeamertemplate{navigation symbols}{}
+
+%Abkürzungen für farbigen Text
+\newcommand{\ter}[1]{\textcolor{red}{#1}}
+\newcommand{\teg}[1]{\textcolor{green}{#1}}
+\newcommand{\teb}[1]{\textcolor{blue}{#1}}
+\newcommand{\temag}[1]{\textcolor{magenta}{#1}}
+
+%Mathematische Abk�rzungen (allgemein)
+\newcommand{\id}{\textrm{id}}
+\newcommand{\enmo}{\textrm{End}}
+\newcommand{\aut}{\textrm{Aut}}
+\newcommand{\spn}{\textrm{span}}
+\newcommand{\im}{\textrm{im}}
+\newcommand{\re}{\textrm{re}}
+\newcommand{\preim}{\textrm{preim}}
+\newcommand{\gr}{\textrm{gr}}
+\newcommand{\var}{\textrm{Var}}
+\newcommand{\RE}{\textrm{Re}}
+\newcommand{\IM}{\textrm{Im}}
+\newcommand{\diam}{\textrm{diam}}
+\newcommand{\abb}{\textrm{Abb}}
+\newcommand{\Hom}{\textrm{Hom}}
+\newcommand{\Mat}{\textrm{Mat}}
+\newcommand{\rg}{\textrm{rg}}
+\newcommand{\sgn}{\textrm{sign}}
+\newcommand{\vol}{\textrm{vol}}
+\newcommand{\discrim}{\text{discrim}}
+\newcommand{\pr}{\text{pr}}
+\newcommand{\ggT}{\text{gcD}}
+\newcommand{\res}{\text{Res}}
+
+%Mathematische Abk?rzungen (diskrete Geometrie)
+\DeclareMathOperator{\conv}{conv }
+\DeclareMathOperator{\pos}{pos }
+\DeclareMathOperator{\verti}{vert}
+
+%Mathematische Abk?rzungen (Tropische Geometrie)
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\Exp}{Exp}
+\DeclareMathOperator{\New}{New}
+\DeclareMathOperator{\crit}{crit}
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\coA}{\emph{co}\mathcal{A}}
+\DeclareMathOperator{\trop}{Trop}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\prin}{prin}
+\DeclareMathOperator{\eq}{eq}
+\DeclareMathOperator{\val}{val}
+\DeclareMathOperator{\Val}{Val}
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\MV}{MV}
+
+
+%Griechische Buchstaben (klein)
+\newcommand{\eps}{\varepsilon}
+\newcommand{\vphi}{\varphi}
+\newcommand{\alp}{\alpha}
+\newcommand{\lam}{\lambda}
+\newcommand{\kro}{\delta}
+\newcommand{\sig}{\sigma}
+
+%Griechische Buchstaben (gro�)
+\newcommand{\Sig}{\Sigma}
+\newcommand{\lap}{\Delta}
+\newcommand{\Gam}{\Gamma}
+
+%Pfeile und Verschiedenes
+\newcommand{\tri}{\triangle}
+\newcommand{\quabla}{\square}
+\newcommand{\lf}{\left}
+\newcommand{\ri}{\right}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\Lra}{\Longrightarrow}
+\newcommand{\lera}{\leftrightarrow}
+\newcommand{\Lera}{\Leftrightarrow}
+\newcommand{\la}{\leftarrow}
+\newcommand{\La}{\Leftarrow}
+\newcommand{\lla}{\longleftarrow}
+\newcommand{\Lla}{\Longleftarrow}
+\newcommand{\w}{\wedge}
+\newcommand{\n}{\not}
+\newcommand{\wh}{\widehat}
+\newcommand{\sr}{\stackrel}
+\newcommand{\ti}{\tilde}
+\newcommand{\bs}{\backslash}
+\newcommand{\ovl}{\overline}
+\newcommand{\udl}{\underline}
+\newcommand{\fr}{"< }
+\newcommand{\fl}{">}
+\newcommand{\lan}{\langle}
+\newcommand{\ran}{\rangle}
+
+%Diverse K�rper und Lambda-Differentiale sowie Buchstaben in mathcal- und mathds-Stil
+\newcommand\A{{\ensuremath{\mathbb{A}}}\xspace}
+\newcommand\B{{\ensuremath{\mathbb{B}}}\xspace}
+\newcommand\C{{\ensuremath{\mathbb{C}}}\xspace}
+\newcommand\D{{\ensuremath{\mathbb{D}}}\xspace}
+\newcommand\E{{\ensuremath{\mathbb{E}}}\xspace}
+\newcommand\F{{\ensuremath{\mathbb{F}}}\xspace}
+% \newcommand\H{{\ensuremath{\mathbb{H}}}\xspace}
+\newcommand\I{{\ensuremath{\mathbb{I}}}\xspace}
+\newcommand\J{{\ensuremath{\mathbb{J}}}\xspace}
+\newcommand\K{{\ensuremath{\mathbb{K}}}\xspace}
+% \newcommand\L{{\ensuremath{\mathbb{L}}}\xspace}
+\newcommand\M{{\ensuremath{\mathbb{M}}}\xspace}
+\newcommand\N{{\ensuremath{\mathbb{N}}}\xspace}
+% \newcommand\O{{\ensuremath{\mathbb{O}}}\xspace}
+\renewcommand\P{{\ensuremath{\mathbb{P}}}\xspace}
+\newcommand\Q{{\ensuremath{\mathbb{Q}}}\xspace}
+\newcommand\R{{\ensuremath{\mathbb{R}}}\xspace}
+\newcommand\Rn{{\ensuremath{\mathbb{R}^n}}\xspace}
+% \newcommand\S{{\ensuremath{\mathbb{S}}}\xspace}
+\newcommand\T{{\ensuremath{\mathbb{T}}}\xspace}
+\newcommand\U{{\ensuremath{\mathbb{U}}}\xspace}
+\newcommand\V{{\ensuremath{\mathbb{V}}}\xspace}
+\newcommand\W{{\ensuremath{\mathbb{W}}}\xspace}
+\newcommand\X{{\ensuremath{\mathbb{X}}}\xspace}
+\newcommand\Y{{\ensuremath{\mathbb{Y}}}\xspace}
+\newcommand\Z{{\ensuremath{\mathbb{Z}}}\xspace}
+\newcommand\Ch{{\ensuremath{\mathbb{1}}}\xspace}
+
+\newcommand\cA{{\ensuremath{\mathcal{A}}}\xspace}
+\newcommand\cB{{\ensuremath{\mathcal{B}}}\xspace}
+\newcommand\cC{{\ensuremath{\mathcal{C}}}\xspace}
+\newcommand\cD{{\ensuremath{\mathcal{D}}}\xspace}
+\newcommand\cE{{\ensuremath{\mathcal{E}}}\xspace}
+\newcommand\cF{{\ensuremath{\mathcal{F}}}\xspace}
+\newcommand\cG{{\ensuremath{\mathcal{G}}}\xspace}
+\newcommand\cH{{\ensuremath{\mathcal{H}}}\xspace}
+\newcommand\cI{{\ensuremath{\mathcal{I}}}\xspace}
+\newcommand\cJ{{\ensuremath{\mathcal{J}}}\xspace}
+\newcommand\cK{{\ensuremath{\mathcal{K}}}\xspace}
+\newcommand\cL{{\ensuremath{\mathcal{L}}}\xspace}
+\newcommand\cM{{\ensuremath{\mathcal{M}}}\xspace}
+\newcommand\cN{{\ensuremath{\mathcal{N}}}\xspace}
+\newcommand\cO{{\ensuremath{\mathcal{O}}}\xspace}
+\newcommand\cP{{\ensuremath{\mathcal{P}}}\xspace}
+\newcommand\cQ{{\ensuremath{\mathcal{Q}}}\xspace}
+\newcommand\cR{{\ensuremath{\mathcal{R}}}\xspace}
+\newcommand\cS{{\ensuremath{\mathcal{S}}}\xspace}
+\newcommand\cT{{\ensuremath{\mathcal{T}}}\xspace}
+\newcommand\cU{{\ensuremath{\mathcal{U}}}\xspace}
+\newcommand\cV{{\ensuremath{\mathcal{V}}}\xspace}
+\newcommand\cW{{\ensuremath{\mathcal{W}}}\xspace}
+\newcommand\cX{{\ensuremath{\mathcal{X}}}\xspace}
+\newcommand\cY{{\ensuremath{\mathcal{Y}}}\xspace}
+\newcommand\cZ{{\ensuremath{\mathcal{Z}}}\xspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Theorem-Definitionen %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheoremstyle{MatheStandard}
+{}{10pt}
+{} 
+{-8pt} 
+{\bfseries}{:} 
+{\newline} 
+{} 
+
+
+\theoremstyle{MatheStandard}
+
+\newtheorem{satz}{Theorem}[section]
+\newtheorem{lem}[satz]{Lemma}
+\newtheorem{cor}[satz]{Corollary}
+\newtheorem{defn}[satz]{Definition}
+\newtheorem{exa}[satz]{Example}
+\newtheorem{sadef}[satz]{Proposition and definition}
+\newtheorem{thm}[satz]{Theorem}
+\newtheorem{prop}[satz]{Proposition}
+\newtheorem{rem}[satz]{Remark}
+
+\newtheorem*{satz*}{Theorem}
+\newtheorem*{lem*}{Lemma}
+\newtheorem*{cor*}{Corollary}
+\newtheorem*{defn*}{Definition}
+\newtheorem*{exa*}{Example}
+\newtheorem*{thm*}{Theorem}
+\newtheorem*{prop*}{Proposition}
+\newtheorem*{rem*}{Remark}
+\newtheorem*{konv}{Convention}
+\newtheorem*{wied}{Recapitulation}
+\newtheorem*{aus}{Prospect}
+\newtheorem*{ueb}{Exercise}
+\newtheorem*{erl}{Explanation}
+\newtheorem*{conj}{Conjecture}
+
+\newtheorem{aufg}[section]{Exercise}
+
+\newtheoremstyle{MatheExtra}
+{}{10pt}
+{} 
+{-8pt} 
+{\itshape}{:}
+{\newline} 
+{} 
+
+
+\theoremstyle{MatheExtra}
+\newtheorem*{bew}{Proof}
+
+
+\setbeamertemplate{enumerate items}[ball]
+
+
+\definecolor{DarkGreen}{rgb}{0,0.65,0}
+
+\DeclareMathOperator{\grad}{grad}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Software}
+
+\only<1-8>{
+\uncover<1->{
+\textbf{\textsc{\structure{SAGE}:}}
+System for Algebra and Geometry Experimentation
+}
+
+\uncover<2->{
+\begin{itemize}
+	\item A powerful software covering many branches of mathematics
+	\uncover<3->{\item Coded in Python}
+\end{itemize}
+}
+\uncover<4->{
+\begin{example}
+\texttt{M = MaxMediatedSet(((0,0,0),(4,0,0),(0,6,0),(0,0,10))) \\
+M.plot()}
+\begin{figure}
+	\includegraphics[width=0.3\linewidth]{non_SOS.jpg}
+\end{figure}
+\end{example}
+}
+}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

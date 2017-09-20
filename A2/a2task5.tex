@@ -1,0 +1,55 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{listings}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+%If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
+ 
+\begin{document}
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+%Good resources for looking up how to do stuff:
+%Binary operators: http://www.access2science.com/latex/Binary.html
+%General help: http://en.wikibooks.org/wiki/LaTeX/Mathematics
+%Or just google stuff
+ 
+\title{Assignment 2\\ MEEN 357}
+\author{Jacob Hartzer}
+\maketitle
+ 
+\section*{Task 5}
+\begin{problem}{i}
+What is the range of a 9-bit unsigned integer?\\
+
+The range is from 0 to $2^9-1$ or \bf{0 to 511}.
+\end{problem}
+
+\begin{problem}{ii}
+What is the range of a 9-bit signed integer? \\
+
+The range is from $-2^8 to 2^8-1$ or \bf{-256 to 255}
+\end{problem}
+
+\begin{problem}{iii}
+What is the binary representation of decimal 125 as a 9-bit unsigned integer? \\
+
+I derived this by finding the largest power of 2 less than the original number and then subtracting and repeating. This processes looked like this: $125 - 2^6 = 61$. $61 - 2^5 = 29$. And so on. Then, I filled in each digit appropriately where if I used that power, the digit would be a 1.  \bf{001111101} 
+\end{problem}
+
+\begin{problem}{iv}
+What is the binary representation of decimal 125 as a 9-bit signed integer?\\
+
+For a nine-bit signed integer, since the number is less than $2^8$ and positive, the answer remains the same: \bf{001111101}
+\end{problem}
+
+\begin{problem}{v}
+What is the binary representation of decimal -125 as a 9-bit signed integer?\\
+
+To obtain the negative counterpart, I found the 1’s complement and then added one. This gave an answer of: \bf{110000011}
+\end{problem}
+\end{document}

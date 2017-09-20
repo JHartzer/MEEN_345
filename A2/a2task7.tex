@@ -1,0 +1,86 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{listings}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+%If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
+ 
+\begin{document}
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+%Good resources for looking up how to do stuff:
+%Binary operators: http://www.access2science.com/latex/Binary.html
+%General help: http://en.wikibooks.org/wiki/LaTeX/Mathematics
+%Or just google stuff
+ 
+\title{Assignment 2\\ MEEN 357}
+\author{Jacob Hartzer}
+\maketitle
+ 
+\section*{Task 7}
+\begin{problem}{i} Taylor series of $tan^{-1}(x)$
+\begin{center}
+$f(x) = tan^{-1}(x)$\\
+$f(tan\theta{}) = \theta{}$\\$
+f'(tan\theta{})sec^2\theta{}=1$\\$
+sec^2\theta{} =tan^2\theta+1$\\$
+x = tan\theta{} \,\to\, sec^2 \theta{}=1+x^2$\\$
+f'(x)=1/(1+x^2 )$\\$
+f^{(1)} (c)=\frac{1}{1+x^2}$\\$
+f^{(2)} (c)=\frac{-2x}{1+x^2)^2}$\\$
+f^{(3)} (c)=\frac{8x^2}{(1+x^2)^3} \frac{-2}{(1+x^2)^2} $\\$
+f^{(4)} (c)=\frac{-48x^3}{(1+x^2)^4}+\frac{24x}{(1+x^2)^3} $\\$
+f^{(5)} (c)=\frac{384x^4}{1+x^2)^5}-\frac{288x^2}{1+x^2 )^4}+\frac{24}{(1+x^2)^3} $\\$
+f^{(6)} (c)=\frac{-3840x^5}{1+x^2)^6} + \frac{3840x^3}{(1+x^2)^5} -\frac{720x}{(1+x^2)^4} $
+\end{center}
+Continuing, one finds that 
+\begin{center}
+$tan^{-1} (x)=f^{(0)} (c)+\frac{f^{(1)} (c)}{1!}x^1+\frac{f^{(2)} (c)}{2!}x^2+\dots{}+\frac{f^{(n)} (c)}{n!} x^n$\\
+$=x-\frac{x^3}{3}+\frac{x^5}{3}-\frac{x^7}{7'}+\frac{x^9}{9}-\dots{}$\\ 
+$=\sum^{\inf}_{n=1}-1^{n-1}  \frac{x^{2n-1}}{2n-1}$
+\end{center}
+\end{problem}
+
+\begin{problem}{ii} Find $R_5$
+\begin{center}
+$R_5 \leq \frac{Max|f^{5+`}(c)|}{(5+1)!}x^{5-1}=Max\Big[\frac{-16c^5}{3(1+x^2 )^6}+\frac{16c^3}{3(1+x^2)^5}-\frac{c}{1+x^2 )^4}  \Big]\big( \frac{\pi}{6} \big)^4$\\
+$c = 0.2274$\\
+$R_5 = 0.0105$
+\end{center}
+\end{problem}
+
+\begin{problem}{iii} Find the number of terms requried to limit the truncation error.
+\begin{lstlisting}
+
+clc; clear all; close all;
+
+syms x;
+fun(x) = atan(x);
+
+n = 1;
+while true
+    fun_diff = diff(fun,n+1);
+    
+    remainder = max(abs(double(fun_diff(linspace(0,pi/4,500)))))/...
+        factorial(n+1)*power((pi/6),n-1);
+    
+    if remainder < power(10,-5) || n >= 50
+        break
+    end
+    
+    n = n + 1 ;
+end   
+disp(n); disp(remainder);
+
+\end{lstlisting}
+$n=15$\\
+$remainder = 6.7654e-06$
+\end{problem}
+
+
+\end{document}
